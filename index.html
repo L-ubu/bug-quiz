@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Bug World - The Cutest Bug Quiz Ever</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;600;700&family=Fredoka+One&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div id="app">
+    <!-- Landing Page -->
+    <div id="landing" class="screen active">
+      <div class="landing-content">
+        <div class="title-bug">🐛</div>
+        <h1>Bug World</h1>
+        <p class="subtitle">How well do you know the coolest critters on Earth?</p>
+        <div class="game-modes">
+          <button class="mode-btn" onclick="startGame('shadow')">
+            <span class="mode-icon">🔍</span>
+            <span class="mode-name">Mystery Bug</span>
+            <span class="mode-desc">Tiles reveal piece by piece — guess early for more points!</span>
+          </button>
+          <button class="mode-btn" onclick="startGame('quiz')">
+            <span class="mode-icon">🧠</span>
+            <span class="mode-name">Bug Quiz</span>
+            <span class="mode-desc">Test your bug knowledge!</span>
+          </button>
+          <button class="mode-btn" onclick="startGame('match')">
+            <span class="mode-icon">🃏</span>
+            <span class="mode-name">Bug Match</span>
+            <span class="mode-desc">Match the pairs - memory game!</span>
+          </button>
+          <button class="mode-btn" onclick="startGame('truefalse')">
+            <span class="mode-icon">🤯</span>
+            <span class="mode-name">True or False</span>
+            <span class="mode-desc">Are these wild bug facts real?</span>
+          </button>
+        </div>
+      </div>
+      <div class="floating-bugs">
+        <span class="float-bug" style="--delay:0s;--x:10%;--y:20%">🐞</span>
+        <span class="float-bug" style="--delay:1s;--x:80%;--y:15%">🦋</span>
+        <span class="float-bug" style="--delay:2s;--x:15%;--y:70%">🐝</span>
+        <span class="float-bug" style="--delay:3s;--x:85%;--y:75%">🪲</span>
+        <span class="float-bug" style="--delay:4s;--x:50%;--y:10%">🦗</span>
+        <span class="float-bug" style="--delay:5s;--x:45%;--y:85%">🐜</span>
+        <span class="float-bug" style="--delay:1.5s;--x:70%;--y:50%">🪳</span>
+        <span class="float-bug" style="--delay:3.5s;--x:25%;--y:45%">🦟</span>
+      </div>
+    </div>
+
+    <!-- Shadow Bug Game -->
+    <div id="shadow-game" class="screen">
+      <div class="game-header">
+        <button class="back-btn" onclick="goHome()">← Back</button>
+        <div class="score-display">Score: <span id="shadow-score">0</span>/<span id="shadow-total">0</span></div>
+      </div>
+      <h2>🔍 Mystery Bug</h2>
+      <p class="game-instruction">Pieces reveal with each guess — can you figure it out early?</p>
+      <div class="shadow-container">
+        <div id="shadow-img-wrapper" class="shadow-img-wrapper">
+          <img id="shadow-img" src="" alt="Mystery bug">
+          <div id="tile-grid" class="tile-grid"></div>
+        </div>
+        <div id="shadow-guess-count" class="guess-counter"></div>
+        <div id="shadow-fun-fact" class="fun-fact hidden"></div>
+        <div id="shadow-answer" class="shadow-answer hidden"></div>
+      </div>
+      <div id="shadow-choices" class="choices"></div>
+      <button id="shadow-next" class="next-btn hidden" onclick="nextShadow()">Next Bug →</button>
+    </div>
+
+    <!-- Quiz Game -->
+    <div id="quiz-game" class="screen">
+      <div class="game-header">
+        <button class="back-btn" onclick="goHome()">← Back</button>
+        <div class="score-display">Score: <span id="quiz-score">0</span>/<span id="quiz-total">0</span></div>
+      </div>
+      <h2>🧠 Bug Quiz</h2>
+      <div id="quiz-question-wrapper">
+        <div id="quiz-image-container" class="quiz-image-container">
+          <img id="quiz-image" src="" alt="Bug">
+        </div>
+        <p id="quiz-question" class="quiz-question"></p>
+      </div>
+      <div id="quiz-choices" class="choices"></div>
+      <button id="quiz-next" class="next-btn hidden" onclick="nextQuiz()">Next Question →</button>
+    </div>
+
+    <!-- Match Game -->
+    <div id="match-game" class="screen">
+      <div class="game-header">
+        <button class="back-btn" onclick="goHome()">← Back</button>
+        <div class="score-display">Moves: <span id="match-moves">0</span> | Pairs: <span id="match-pairs">0</span>/<span id="match-total">0</span></div>
+      </div>
+      <h2>🃏 Bug Match</h2>
+      <p class="game-instruction">Match each bug to its name!</p>
+      <div id="match-grid" class="match-grid"></div>
+      <div id="match-complete" class="match-complete hidden">
+        <h3>🎉 You matched them all!</h3>
+        <p id="match-result"></p>
+        <button class="next-btn" onclick="startGame('match')">Play Again</button>
+      </div>
+    </div>
+
+    <!-- True or False Game -->
+    <div id="tf-game" class="screen">
+      <div class="game-header">
+        <button class="back-btn" onclick="goHome()">← Back</button>
+        <div class="score-display">Score: <span id="tf-score">0</span>/<span id="tf-total">0</span></div>
+      </div>
+      <h2>🤯 True or False</h2>
+      <div id="tf-content">
+        <div id="tf-image-container" class="quiz-image-container">
+          <img id="tf-image" src="" alt="Bug">
+        </div>
+        <p id="tf-statement" class="tf-statement"></p>
+        <div id="tf-explanation" class="fun-fact hidden"></div>
+      </div>
+      <div id="tf-buttons" class="tf-buttons">
+        <button class="tf-btn true-btn" onclick="answerTF(true)">✅ True</button>
+        <button class="tf-btn false-btn" onclick="answerTF(false)">❌ False</button>
+      </div>
+      <button id="tf-next" class="next-btn hidden" onclick="nextTF()">Next Fact →</button>
+    </div>
+
+    <!-- Results Screen -->
+    <div id="results" class="screen">
+      <div class="results-content">
+        <h2 id="results-title"></h2>
+        <div id="results-score" class="results-score"></div>
+        <p id="results-message"></p>
+        <div id="results-bug-fact" class="results-bug-fact"></div>
+        <div class="results-buttons">
+          <button class="mode-btn small" onclick="replayGame()">🔄 Play Again</button>
+          <button class="mode-btn small" onclick="goHome()">🏠 Home</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="bugs.js"></script>
+  <script src="game.js"></script>
+</body>
+</html>
