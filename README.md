@@ -1,5 +1,7 @@
 # Bug World
 
+![Screenshot](assets/screenshot.png)
+
 An educational quiz game about insects. Learn fascinating facts about 47 bug species across four game modes — all running in the browser with zero dependencies.
 
 ## Game modes
